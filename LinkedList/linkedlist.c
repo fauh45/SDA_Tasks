@@ -12,6 +12,59 @@ Node *createNode(int info)
     return temp;
 }
 
+Node *tail(Node *head_node)
+{
+    Node *curr = head_node;
+    while (curr->next != NULL)
+    {
+        curr = curr->next;
+    }
+    
+    return curr;
+}
+
+Node *nodeAt(Node *head_node, int pos)
+{
+    Node *curr = head_node;
+
+    for (int i = 0; i < pos; i++)
+    {
+        curr = curr->next;
+    }
+    
+    return curr;
+}
+
+int size(Node *head_node)
+{
+    int count = 0;
+    Node *curr = head_node;
+    while (curr != NULL)
+    {
+        count++;
+        curr = curr->next;
+    }
+    
+    return count;
+}
+
+void changeInfoAt(Node *head_node, int info, int pos)
+{
+    Node *curr = head_node;
+
+    for (int i = 0; i < pos; i++)
+    {
+        curr = curr->next;
+    }
+
+    if (curr == NULL)
+    {
+        return;
+    }
+    
+    curr->info = info;
+}
+
 void push(Node **head_node, int info)
 {
     Node *newNode = createNode(info);
@@ -27,6 +80,7 @@ void append(Node **head_node, int info)
     if (*head_node == NULL)
     {
         *head_node = newNode;
+        return;
     }
 
     while (last->next != NULL)
@@ -50,7 +104,17 @@ void appendAfter(Node *node_before, int info)
     node_before->next = newNode;
 }
 
-/* TODO */ 
+void appendAfterPosition(Node *head_node, int info, int pos)
+{
+    if (pos == 0)
+    {
+        appendAfter(head_node, info);
+        return;
+    }
+    
+    appendAfter(nodeAt(head_node,pos), info);
+}
+
 void deleteNodeAtPosition(Node **head_node, int pos)
 {
     if (*head_node == NULL)
@@ -68,8 +132,8 @@ void deleteNodeAtPosition(Node **head_node, int pos)
     
     if (pos == 0)
     {
-        *head_node = temp->next;
         temp->next = NULL;
+        *head_node = temp->next;
         free(temp);
         return;      
     }
@@ -99,4 +163,3 @@ void printContent(Node *head_node)
         head_node = head_node->next;
     }
 }
-
