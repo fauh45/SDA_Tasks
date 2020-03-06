@@ -19,6 +19,4 @@ void appendAfterPosition(Node *head_node, int info, int pos);
 void deleteNodeAtPosition(Node **head_node, int pos);
 void printContent(Node *head_node);
 
-#include "linkedlist.c"
-
 #endif

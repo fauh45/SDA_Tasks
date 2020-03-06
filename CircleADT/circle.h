@@ -58,5 +58,4 @@ boolean CompareCircle(Circle C1, Circle C2);
 Circle CopyCircle(Circle C1);
 /*Mengembalikan sebuah Circle */
 
-#include "circle.c"
 #endif

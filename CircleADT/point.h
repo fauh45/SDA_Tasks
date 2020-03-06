@@ -77,5 +77,4 @@ void PrevX_N(POINT *P, int N);
 int Jarak(POINT P1, POINT P2);
 /*Menghasilkan jarak P1 dan P2 */
 
-#include "point.c"
 #endif
