@@ -67,7 +67,7 @@ address Search1(List L, infotype X)
 
 	while ((P != Nil) && (!found))
 	{
-		if (strcmp(Info(P).nama, X.nama) == 0 && (Info(P).tinggi == X.tinggi))
+		if (strcmp(Info(P).nama, X.nama) == 0)
 		{
 			{
 				found = true;
@@ -94,11 +94,11 @@ address Search2(List L, infotype X)
 	else
 	{
 		P = First(L);
-		while ((Next(P) != Nil) && !(strcmp(Info(P).nama, X.nama) == 0 && (Info(P).tinggi == X.tinggi)))
+		while ((Next(P) != Nil) && !(strcmp(Info(P).nama, X.nama) == 0))
 		{
 			P = Next(P);
 		} /* Next(P)==Nil or Info(P)==X */
-		if (strcmp(Info(P).nama, X.nama) == 0 && (Info(P).tinggi == X.tinggi))
+		if (strcmp(Info(P).nama, X.nama) == 0)
 		{
 			return P;
 		}
@@ -149,13 +149,13 @@ address SearchPrec(List L, infotype X)
 	else
 	{
 		P = First(L);
-		while ((Next(P) != Nil) && !(strcmp(Info(P).nama, X.nama) == 0 && (Info(P).tinggi == X.tinggi)))
+		while ((Next(P) != Nil) && !(strcmp(Info(P).nama, X.nama) == 0))
 		{
 			Prec = P;
 			P = Next(P);
 		} /* Next(P)==Nil or Info(P)==X */
 
-		if (strcmp(Info(P).nama, X.nama) == 0 && (Info(P).tinggi == X.tinggi))
+		if (strcmp(Info(P).nama, X.nama) == 0)
 		{ /* Ketemu Info (P)== X */
 			return Prec;
 		}
@@ -180,35 +180,6 @@ void InsertNew(List *L, infotype X)
 	if (P != Nil)
 	{
 		Insert(&(*L), P);
-	}
-}
-
-void InsertNewSorted(List *L, infotype X)
-{
-	address P = Alokasi(X);
-	if (P != Nil)
-	{
-		address curr = First(*L);
-		address before = Nil;
-		while (curr != Nil)
-		{
-			if (P->info.tinggi <= curr->info.tinggi)
-			{
-				break;
-			}
-
-			curr = curr->next;
-			before = curr;
-		}
-
-		if (before == Nil)
-		{
-			InsertFirst(L, P);
-		}
-		else
-		{
-			InsertAfter(L, P, before);
-		}
 	}
 }
 
@@ -366,12 +337,12 @@ void DelP(List *L, infotype X)
 	/*         tetap. List mungkin menjadi kosomg karena penghapusan   */
 	address P = First(*L);
 
-	while ((Next(P) != Nil) && (strcmp(Info(P).nama, X.nama) == 0 && (Info(P).tinggi == X.tinggi)))
+	while ((Next(P) != Nil) && (strcmp(Info(P).nama, X.nama) == 0))
 	{
 		P = Next(P);
 	} /*Next(P)=Nil or Info(P)= X */
 
-	if (strcmp(Info(P).nama, X.nama) == 0 && (Info(P).tinggi == X.tinggi))
+	if (strcmp(Info(P).nama, X.nama) == 0)
 	{
 		Dealokasi(&P);
 	}
@@ -451,20 +422,19 @@ void PrintInfo(List L)
 	address P = First(L);
 	if (P == Nil)
 	{
-		printf("List Kosong !\n");
+		printf("[ ]");
 	}
 	else
 	{ /* List tidak kosong */
 		printf("[ ");
 		do
 		{
-			printf("%s %d\n", Info(P).nama, Info(P).tinggi);
+			printf("%s, ", Info(P).nama);
 			P = Next(P);
 			i++;
 		} while (P != Nil);
-		printf("]");
+		printf("\b\b ]");
 	}
-	printf("\n");
 }
 
 int NbElmt(List L)
@@ -637,88 +607,88 @@ void CpAlokList(List Lin, List *Lout)
 			}
 		} while (Next(P) != Nil);
 	}
-}
+// }
 
-void konkat(List L1, List L2, List *L3)
-{ /* I.S   : L1 dan L2 sembarang			      */
-	/* F.S   : L1 dan L2 tetap, L3 adalah hasil konkatenasi L1 &  */
-	/*	   L2. Jika semua alokasi berhasil, maka L3  adalah   */
-	/*	   hasil konkatenasi. Jika ada alokasi yang gagal,    */
-	/*	   semua elemen yang sudah dialokasi, di-dealokasi dan*/
-	/*	   L3=Nil					      */
-	/*		
-/*      L1, dan L2 tidak kosong */
+// void konkat(List L1, List L2, List *L3)
+// { /* I.S   : L1 dan L2 sembarang			      */
+// 	/* F.S   : L1 dan L2 tetap, L3 adalah hasil konkatenasi L1 &  */
+// 	/*	   L2. Jika semua alokasi berhasil, maka L3  adalah   */
+// 	/*	   hasil konkatenasi. Jika ada alokasi yang gagal,    */
+// 	/*	   semua elemen yang sudah dialokasi, di-dealokasi dan*/
+// 	/*	   L3=Nil					      */
+// 	/*		
+// /*      L1, dan L2 tidak kosong */
 
-	/* Kamus */
-	address P1, P2, P3;
-	infotype X1, X2;
+// 	/* Kamus */
+// 	address P1, P2, P3;
+// 	infotype X1, X2;
 
-	/* Algoritma */
-	CreateList(&(*L3));
+// 	/* Algoritma */
+// 	CreateList(&(*L3));
 
-	/* Mengisi L3 dengan L1 */
-	P1 = First(L1);
-	do
-	{ /* L1 minimal 1 elemen */
-		X1 = Info(P1);
-		P3 = Alokasi(X1);
-		if (P3 != Nil)
-		{ /* Alokasi L3 berhasil */
-			InsertLast(&(*L3), P3);
-			P1 = Next(P1);
-		}
-		else
-		{ /* Alokasi gagal ; L3 di-dealokasi semua */
-			DelAll(&(*L3));
-			First(*L3) = Nil;
-			break;
-		}
-	} while (Next(P1) != Nil);
+// 	/* Mengisi L3 dengan L1 */
+// 	P1 = First(L1);
+// 	do
+// 	{ /* L1 minimal 1 elemen */
+// 		X1 = Info(P1);
+// 		P3 = Alokasi(X1);
+// 		if (P3 != Nil)
+// 		{ /* Alokasi L3 berhasil */
+// 			InsertLast(&(*L3), P3);
+// 			P1 = Next(P1);
+// 		}
+// 		else
+// 		{ /* Alokasi gagal ; L3 di-dealokasi semua */
+// 			DelAll(&(*L3));
+// 			First(*L3) = Nil;
+// 			break;
+// 		}
+// 	} while (Next(P1) != Nil);
 
-	/* Mengisi L3 dengan L2 */
-	P2 = First(L2);
-	do
-	{ /* L2 minimal 1 elemen */
-		X2 = Info(P2);
-		P3 = Alokasi(X2);
-		if (P3 != Nil)
-		{
-			InsertLast(&(*L3), P3);
-			P2 = Next(P2);
-		}
-		else
-		{ /* Alokasi L3 gagal */
-			DelAll(&(*L3));
-			First(*L3) = Nil;
-			break;
-		}
-	} while (Next(P2) != Nil);
-}
+// 	/* Mengisi L3 dengan L2 */
+// 	P2 = First(L2);
+// 	do
+// 	{ /* L2 minimal 1 elemen */
+// 		X2 = Info(P2);
+// 		P3 = Alokasi(X2);
+// 		if (P3 != Nil)
+// 		{
+// 			InsertLast(&(*L3), P3);
+// 			P2 = Next(P2);
+// 		}
+// 		else
+// 		{ /* Alokasi L3 gagal */
+// 			DelAll(&(*L3));
+// 			First(*L3) = Nil;
+// 			break;
+// 		}
+// 	} while (Next(P2) != Nil);
+// }
 
-void konkat1(List *L1, List *L2, List *L3)
-{ /* I.S  : L1 dan L2 sembarang	; 			  */
-	/* F.S  : L1 dan L2 kosong,  L3 adalah hasil konkatenasi*/
-	/*	  L1 & L2, 					  */
-	/* Konkatenasi 2 buah list : L1 dan L2 menghasilkan L3  */
-	/* yang baru (dengan elemen list L1 dan L2 menjadi      */
-	/* List kosong. Tidak ada alokasi/dealokasi  		  */
+// void konkat1(List *L1, List *L2, List *L3)
+// { /* I.S  : L1 dan L2 sembarang	; 			  */
+// 	/* F.S  : L1 dan L2 kosong,  L3 adalah hasil konkatenasi*/
+// 	/*	  L1 & L2, 					  */
+// 	/* Konkatenasi 2 buah list : L1 dan L2 menghasilkan L3  */
+// 	/* yang baru (dengan elemen list L1 dan L2 menjadi      */
+// 	/* List kosong. Tidak ada alokasi/dealokasi  		  */
 
-	address P1, P2, P3;
-	infotype X1, X2, X3;
+// 	address P1, P2, P3;
+// 	infotype X1, X2, X3;
 
-	CreateList(&(*L3));
+// 	CreateList(&(*L3));
 
-	while (First(*L1) != Nil) /* L1 belum kosong */
-	{
-		DelFirst(&(*L1), &P1);
-		InsertLast(&(*L3), P1);
-	} /* First(L1) == Nil ; Kosong */
+// 	while (First(*L1) != Nil) /* L1 belum kosong */
+// 	{
+// 		DelFirst(&(*L1), &P1);
+// 		InsertLast(&(*L3), P1);
+// 	} /* First(L1) == Nil ; Kosong */
 
-	while (First(*L2) != Nil) /* L2 belum kosong */
-	{
-		DelFirst(&(*L2), &P2);
-		InsertLast(&(*L3), P2);
-	} /* First (L2) == Nil ; kosong */
+// 	while (First(*L2) != Nil) /* L2 belum kosong */
+// 	{
+// 		DelFirst(&(*L2), &P2);
+// 		InsertLast(&(*L3), P2);
+// 	} /* First (L2) == Nil ; kosong */
 }
 
 void PecahList(List *L1, List *L2, List L)
