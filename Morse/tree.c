@@ -204,7 +204,7 @@ void createMorseTree(Tree *tree)
 
     insertChild(tree->root->left->left->right->right, RIGHT, '2');
 
-    insertChild(tree->root->left->right->left->right, LEFT, ' ');
+    insertChild(tree->root->left->right->left->left, RIGHT, 0);
 
     insertChild(tree->root->left->right->right->right, RIGHT, '1');
 
@@ -215,6 +215,9 @@ void createMorseTree(Tree *tree)
     insertChild(tree->root->right->right->right->left, LEFT, '8');
 
     insertChild(tree->root->right->right->right->right, LEFT, '9');
+
+    // Add level 6
+    insertChild(tree->root->left->right->left->left->right, LEFT, ' ');
 }
 
 char *createCodeChar(Tree morseTree, char code)
@@ -282,7 +285,7 @@ char convertMorse(Tree morseTree, char *morse)
         {
             temp = temp->left;
         }
-        else
+        else if (morse[i] == '-')
         {
             temp = temp->right;
         }
@@ -295,7 +298,7 @@ void convertMorseString(Tree morseTree, char *morses)
 {
     char temp[6];
     int length = strlen(morses);
-    int i, j = 0, k;
+    int i, j = 0;
 
     for (i = 0; i < length; i++)
     {
@@ -304,10 +307,7 @@ void convertMorseString(Tree morseTree, char *morses)
             printf("%c", convertMorse(morseTree, temp));
             j = 0;
 
-            for (k = 0; k < 6; k++)
-            {
-                temp[k] = 0;
-            }
+            memset(temp, 0, sizeof(temp));
         }
         else if (morses[i] != ' ')
         {

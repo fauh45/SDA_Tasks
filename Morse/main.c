@@ -17,7 +17,7 @@ int main(int argc, char const *argv[])
 
     printf("Morse Tree Inorder : ");
     inorder(morse.root);
-    
+
     printf("\nPlease choose the desired function : \n1. Text to Morse\n2. Morse to Text\n3. Text File to Morse\n4. Exit\n");
     printf("Your option : ");
 
@@ -35,7 +35,7 @@ int main(int argc, char const *argv[])
 
     case 2:
         printf("Input the morse code divided by space, max 150 char : ");
-        scanf("%s", temp);
+        scanf(" %[^\n]", temp);
 
         convertMorseString(morse, temp);
         break;
